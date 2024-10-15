@@ -147,5 +147,5 @@ export function fetchLocation(LocationID?: number): Location | Location[] | null
         return location || null; 
     }
 
-    return location;
+    return locations;
 }
