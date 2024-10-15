@@ -1,4 +1,4 @@
-import LocationProfile from "@/components/locationProfile";
+import LocationProfileComponent from "@/components/locationProfile";
 
 type LocationPageProps = {
     params: {
@@ -12,7 +12,7 @@ export default async function ProfilePage({ params }: LocationPageProps) {
 
     return (
         <div>
-            <LocationProfile location={location}/>
+            
         </div>
     );
 }

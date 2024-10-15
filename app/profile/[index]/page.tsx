@@ -1,3 +1,5 @@
+import UserProfileComponent from "@/components/userProfile";
+
 type ProfilePageProps = {
     params: {
         index: string;
