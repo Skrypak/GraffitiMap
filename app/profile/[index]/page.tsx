@@ -1,4 +1,6 @@
 import UserProfileComponent from "@/components/userProfile";
+import { fetchUsers } from "@/db/Placeholder/fetchFunctions";
+import { User } from "@/db/Placeholder/DataTypes";
 
 type ProfilePageProps = {
     params: {
@@ -7,13 +9,9 @@ type ProfilePageProps = {
 };
 
 export default async function ProfilePage({ params }: ProfilePageProps) {
-    const { index } = params;
-    const user = { id: index };
+    const user = fetchUsers(Number(params.index));
 
     return (
-        <div>
-            <h1>Profile Page</h1>
-            <p>ID: {user.id}</p>
-        </div>
+        <UserProfileComponent user={user}/>
     );
 }

@@ -1,4 +1,5 @@
 import LocationProfileComponent from "@/components/locationProfile";
+import { fetchLocation } from "@/db/Placeholder/fetchFunctions";
 
 type LocationPageProps = {
     params: {
@@ -8,11 +9,11 @@ type LocationPageProps = {
 
 export default async function ProfilePage({ params }: LocationPageProps) {
     const { index } = params;
-    const location = { id: index };
+    const location = fetchLocation(Number(index));
 
     return (
         <div>
-            
+            <LocationProfileComponent location={location}/>
         </div>
     );
 }
