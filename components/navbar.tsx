@@ -2,16 +2,22 @@ import Link from 'next/link';
 
 export default function NavBar() {
     return (
-            <nav className="flex w-full items-center">
-                <Link href="/" className="w-full h-full hover:bg-slate-400">
-                    Page 1
+        <nav className="w-full h-12 flex items-center">
+            <div className='w-1/12 h-full flex items-center justify-center'>
+                Logo (placeholder)
+            </div>
+            <div className='w-full h-full flex justify-evenly items-center'>
+                <Link href="/" className="w-1/6 flex items-center justify-center h-full hover:bg-slate-400 transition-all">
+                    Main
                 </Link>
-                <Link href="/page2" className="w-full h-full hover:bg-slate-400">
-                    Page 2
+                <Link href="/map" className="w-1/6 flex items-center justify-center h-full hover:bg-slate-400 transition-all">
+                    Map
                 </Link>
-                <Link href="/page3" className="w-full h-full hover:bg-slate-400">
-                    Page 3
+                <Link href="/about" className="w-1/6 flex items-center justify-center h-full hover:bg-slate-400 transition-all">
+                    About Us
                 </Link>
-            </nav>
+                
+            </div>
+        </nav>
     );
 }
