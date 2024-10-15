@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import { useRouter } from 'next/router'; // Use Next.js useRouter instead
+import L from 'leaflet';
+import customMarkerImage from "@/public/marker.png" // Update with the correct path to your image
 import 'leaflet/dist/leaflet.css';
+
+// Create a custom icon
+const customIcon = L.icon({
+    iconUrl: customMarkerImage,
+    iconSize: [25, 41], // size of the icon
+    iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
+    popupAnchor: [1, -34], // point from which the popup should open relative to the iconAnchor
+});
 
 const GraffitiMap = () => {
     const [graffiti, setGraffiti] = useState([]);
@@ -9,17 +20,16 @@ const GraffitiMap = () => {
         location: '',
         description: '',
         photoIDs: '',
-        user: '' // assuming you still want a user field
+        user: ''
     });
 
+    const router = useRouter(); // Initialize useRouter
+
     useEffect(() => {
-        // Fetching graffiti data on component mount
         fetch('http://localhost:3000/api/graffiti')
             .then(response => response.json())
             .then(data => {
-                // Set graffiti data
                 setGraffiti(data);
-                // Optionally, set marker position if you want to center the map on the first graffiti
                 if (data.length > 0) {
                     setMarkerPosition({ lat: data[0].latitude, lng: data[0].longitude });
                 }
@@ -54,8 +64,8 @@ const GraffitiMap = () => {
                 body: JSON.stringify({
                     Location: location,
                     Description: description,
-                    PhotoID: photoIDsArray.join(','), // send as a comma-separated string
-                    HunterID: user, // if this corresponds to user
+                    PhotoID: photoIDsArray.join(','),
+                    HunterID: user,
                     latitude: markerPosition.lat,
                     longitude: markerPosition.lng,
                 }),
@@ -64,8 +74,6 @@ const GraffitiMap = () => {
                 .then(data => {
                     console.log('Graffiti added:', data);
                     setGraffiti([...graffiti, data]);
-
-                    // Debug: Log the position of the added graffiti dot
                     console.log(`Added graffiti at position: Latitude: ${markerPosition.lat}, Longitude: ${markerPosition.lng}`);
                 })
                 .catch(error => console.error('Error adding graffiti:', error));
@@ -74,17 +82,27 @@ const GraffitiMap = () => {
         }
     };
 
+    const handleMarkerClick = (id) => {
+        router.push(`/location/${id}`); // Navigate to the specific location using Next.js router
+    };
+
     return (
         <div>
-            <h1>Interactive Graffiti Map</h1>
             <MapContainer center={[50.4501, 30.5234]} zoom={12} style={{ height: '600px', width: '100%' }}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
-                {markerPosition && <Marker position={markerPosition} />}
+                {markerPosition && <Marker position={markerPosition} icon={customIcon} />}
                 {graffiti.map((g) => (
-                    <Marker key={g.LocationID} position={[g.latitude, g.longitude]}>
+                    <Marker 
+                        key={g.LocationID} 
+                        position={[g.latitude, g.longitude]} 
+                        icon={customIcon} // Use custom icon here
+                        eventHandlers={{ 
+                            click: () => handleMarkerClick(g.LocationID) // Handle click event
+                        }}
+                    >
                         {/* You can also customize the marker here if needed */}
                     </Marker>
                 ))}

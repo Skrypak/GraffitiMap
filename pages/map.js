@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
 
-// Динамічний імпорт без SSR
+// Dynamic import without SSR
 const GraffitiMap = dynamic(() => import('../components/GraffitiMap'), {
     ssr: false
 });
@@ -9,6 +9,7 @@ const GraffitiMap = dynamic(() => import('../components/GraffitiMap'), {
 const MapPage = () => {
     return (
         <div>
+            <h1>Graffiti Map</h1>
             <GraffitiMap />
         </div>
     );
